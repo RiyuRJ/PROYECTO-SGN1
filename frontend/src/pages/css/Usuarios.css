@@ -1,0 +1,237 @@
+.create-user-card{
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    margin-bottom: 30px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 15px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.create-user-card input{
+
+    padding: 12px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+}
+
+.create-btn{
+
+    background: #7CFC00;
+
+    border: none;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+    
+    color: #111;
+}
+
+.users-table-container{
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.users-table{
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin-top: 20px;
+}
+
+.users-table th,
+.users-table td{
+
+    padding: 15px;
+
+    border-bottom: 1px solid #eee;
+
+    text-align: left;
+}
+
+.edit-btn{
+
+    background: #2196f3;
+
+    color: white;
+
+    border: none;
+
+    padding: 8px 15px;
+
+    margin-right: 10px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.delete-btn{
+
+    background: #f44336;
+
+    color: white;
+
+    border: none;
+
+    padding: 8px 15px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.modal-overlay{
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,0.5);
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+.modal{
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    width: 400px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+.modal input{
+
+    padding: 12px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+}
+
+.modal-actions{
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+}
+
+.save-btn{
+
+    background: #4caf50;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 20px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.cancel-btn{
+
+    background: #777;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 20px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.page-title{
+
+    color: #111;
+
+    font-size: 36px;
+
+    margin-bottom: 25px;
+}
+
+.create-user-form{
+
+    display: flex;
+
+    gap: 15px;
+
+    align-items: center;
+}
+
+.create-user-form input,
+.create-user-form select{
+
+    flex: 1;
+
+    padding: 12px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+}
+
+.create-user-form button{
+
+    min-width: 180px;
+}
+
+@media(max-width: 768px){
+
+    .create-user-form{
+
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .create-user-form button{
+
+        width: 100%;
+    }
+}

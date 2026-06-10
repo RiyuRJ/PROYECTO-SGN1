@@ -1,0 +1,51 @@
+services:
+
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "3003:3003"
+    depends_on:
+      - mongo-auth
+  mongo-auth:
+    image: mongo
+    container_name: mongo-auth
+    ports:
+      - "27019:27017"
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api-gateway
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - users-service
+      - inventory-service
+  users-service:
+    build: ./users-service
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo-users
+
+  mongo-users:
+    image: mongo
+    container_name: mongo-users
+    ports:
+      - "27017:27017"
+
+  inventory-service:
+    build: ./inventory-service
+    ports:
+      - "3002:3002"
+    depends_on:
+      - mongo-inventory
+
+  mongo-inventory:
+    image: mongo
+    container_name: mongo-inventory
+    ports:
+      - "27018:27017"
