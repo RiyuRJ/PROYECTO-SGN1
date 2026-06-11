@@ -13,6 +13,10 @@ import Usuarios from './pages/Usuarios';
 
 import Inventario from './pages/Inventario';
 
+import Clientes from './pages/Clientes';
+
+import Ventas from './pages/Ventas';
+
 import ProtectedRoute from './routes/ProtectedRoute';
 
 function App() {
@@ -64,6 +68,16 @@ function App() {
                 <Route
                     path="*"
                     element={<Navigate to="/" />}
+                />
+
+                <Route
+                    path="/clientes"
+                    element={<Clientes />}
+                />
+
+                <Route
+                    path="/ventas"
+                    element={<Ventas />}
                 />
 
             </Routes>

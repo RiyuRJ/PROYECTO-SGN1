@@ -25,6 +25,22 @@ app.use('/products', createProxyMiddleware({
     changeOrigin: true
 }));
 
+app.use(
+    '/clients',
+    createProxyMiddleware({
+        target: 'http://clients-service:3004',
+        changeOrigin: true
+    })
+);
+
+app.use(
+    '/sales',
+    createProxyMiddleware({
+        target: 'http://sales-service:3005',
+        changeOrigin: true
+    })
+);
+
 app.listen(PORT, () => {
     console.log(`API Gateway ejecutándose en puerto ${PORT}`);
 });

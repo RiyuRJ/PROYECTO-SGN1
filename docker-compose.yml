@@ -6,17 +6,20 @@ services:
       - "3003:3003"
     depends_on:
       - mongo-auth
+
   mongo-auth:
     image: mongo
     container_name: mongo-auth
     ports:
       - "27019:27017"
+
   frontend:
     build: ./frontend
     ports:
       - "5173:5173"
     depends_on:
       - api-gateway
+
   api-gateway:
     build: ./api-gateway
     ports:
@@ -24,6 +27,7 @@ services:
     depends_on:
       - users-service
       - inventory-service
+
   users-service:
     build: ./users-service
     ports:
@@ -49,3 +53,33 @@ services:
     container_name: mongo-inventory
     ports:
       - "27018:27017"
+
+  clients-service:
+    build: ./clients-service
+    ports:
+      - "3004:3004"
+    depends_on:
+      - mongo-clients
+
+  mongo-clients:
+    image: mongo
+    container_name: mongo-clients
+    ports:
+      - "27020:27017"
+    
+  sales-service:
+    build: ./sales-service
+    ports:
+      - "3005:3005"
+    depends_on:
+      - mysql-sales
+
+  mysql-sales:
+    image: mysql:8.3
+    container_name: mysql-sales
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ventas
+    ports:
+      - "3307:3306"

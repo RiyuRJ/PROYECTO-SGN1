@@ -1,0 +1,270 @@
+.create-client-card{
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    margin-bottom: 30px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 15px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.create-btn{
+
+    background: #7CFC00;
+
+    border: none;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    color: #111;
+}
+
+.clients-table-container{
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.clients-table{
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin-top: 20px;
+}
+
+.clients-table th,
+.clients-table td{
+
+    padding: 15px;
+
+    border-bottom: 1px solid #eee;
+
+    text-align: left;
+}
+
+.edit-btn{
+
+    background: #2196f3;
+
+    color: white;
+
+    border: none;
+
+    padding: 8px 15px;
+
+    margin-right: 10px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.delete-btn{
+
+    background: #f44336;
+
+    color: white;
+
+    border: none;
+
+    padding: 8px 15px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.modal-overlay{
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,0.5);
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+.modal{
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    width: 600px;
+
+    max-width: 95%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+.modal input,
+.modal select{
+
+    padding: 12px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+}
+
+.modal-actions{
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+}
+
+.save-btn{
+
+    background: #4caf50;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 20px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.cancel-btn{
+
+    background: #777;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 20px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.page-title{
+
+    color: #111;
+
+    font-size: 36px;
+
+    margin-bottom: 25px;
+}
+
+.create-client-form{
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+
+    gap: 15px;
+
+    align-items: center;
+}
+
+.create-client-form input,
+.create-client-form select{
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+}
+
+.create-client-form button{
+
+    min-height: 48px;
+}
+
+.client-status{
+
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+.client-status.activo{
+
+    background: #e8f9e8;
+
+    color: #2e7d32;
+}
+
+.client-status.inactivo{
+
+    background: #ffe8e8;
+
+    color: #c62828;
+}
+
+@media(max-width: 768px){
+
+    .create-client-form{
+
+        grid-template-columns: 1fr;
+    }
+
+    .create-client-form button{
+
+        width: 100%;
+    }
+
+    .clients-table{
+
+        display: block;
+
+        overflow-x: auto;
+    }
+
+    .modal{
+
+        width: 95%;
+    }
+}

@@ -80,6 +80,14 @@ function Layout({ children }) {
 
                     </div>
 
+                    <Link to="/clientes">
+                        Clientes
+                    </Link>
+
+                    <Link to="/ventas">
+                        Ventas
+                    </Link>
+
                 </nav>
 
             </div>
