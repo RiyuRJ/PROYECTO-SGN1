@@ -19,7 +19,8 @@ mongoose.connect('mongodb://mongo-inventory:27017/inventorydb')
 
 const ProductSchema = new mongoose.Schema({
     nombre: String,
-    stock: Number
+    stock: Number,
+    categoria: String
 });
 
 const Product = mongoose.model('Product', ProductSchema);
@@ -28,24 +29,38 @@ app.get('/', (req, res) => {
     res.send('Inventory Service funcionando');
 });
 
-app.get('/products', authMiddleware, roleMiddleware('admin', 'gerente'), async (req, res) => {
-    const products = await Product.find();
-    res.json(products);
-});
+app.get(
+    '/products',
+    authMiddleware,
+    roleMiddleware('admin', 'gerente'),
+    async (req, res) => {
 
-app.post('/products', authMiddleware, roleMiddleware('admin', 'gerente'), async (req, res) => {
+        const products = await Product.find();
 
-    const product = new Product({
-        nombre: req.body.nombre,
-        stock: req.body.stock
-    });
+        res.json(products);
+    }
+);
 
-    await product.save();
+app.post(
+    '/products',
+    authMiddleware,
+    roleMiddleware('admin', 'gerente'),
+    async (req, res) => {
 
-    res.json(product);
-});
+        const product = new Product({
+            nombre: req.body.nombre,
+            stock: req.body.stock,
+            categoria: req.body.categoria
+        });
 
-app.put('/products/:id',
+        await product.save();
+
+        res.json(product);
+    }
+);
+
+app.put(
+    '/products/:id',
     authMiddleware,
     roleMiddleware('admin', 'gerente'),
     async (req, res) => {
@@ -54,7 +69,8 @@ app.put('/products/:id',
             req.params.id,
             {
                 nombre: req.body.nombre,
-                stock: req.body.stock
+                stock: req.body.stock,
+                categoria: req.body.categoria
             },
             { new: true }
         );
@@ -63,7 +79,8 @@ app.put('/products/:id',
     }
 );
 
-app.delete('/products/:id',
+app.delete(
+    '/products/:id',
     authMiddleware,
     roleMiddleware('admin', 'gerente'),
     async (req, res) => {

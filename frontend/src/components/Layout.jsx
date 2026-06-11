@@ -9,6 +9,8 @@ function Layout({ children }) {
 
     const [menuOpen, setMenuOpen] = useState(false);
 
+    const [inventoryOpen, setInventoryOpen] = useState(false);
+
     const role = getRole();
 
     const email = getEmail();
@@ -43,9 +45,40 @@ function Layout({ children }) {
                         </Link>
                     )}
 
-                    <Link to="/inventario">
-                        Inventario
-                    </Link>
+                    <div className="menu-group">
+
+                        <button
+                            className="submenu-btn"
+                            onClick={() => setInventoryOpen(!inventoryOpen)}
+                        >
+                            <span>Inventario</span>
+
+                            <span>
+                                {inventoryOpen ? '▼' : '▶'}
+                            </span>
+                        </button>
+
+                        {inventoryOpen && (
+
+                            <div className="submenu">
+
+                                <Link to="/inventario">
+                                    Todos
+                                </Link>
+
+                                <Link to="/inventario/insumos">
+                                    Insumos
+                                </Link>
+
+                                <Link to="/inventario/productos">
+                                    Productos
+                                </Link>
+
+                            </div>
+
+                        )}
+
+                    </div>
 
                 </nav>
 

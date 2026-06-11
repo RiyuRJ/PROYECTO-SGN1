@@ -48,11 +48,17 @@ function App() {
 
                 <Route
                     path="/inventario"
-                    element={
-                        <ProtectedRoute>
-                            <Inventario />
-                        </ProtectedRoute>
-                    }
+                    element={<Inventario filtro="todos" />}
+                />
+
+                <Route
+                    path="/inventario/insumos"
+                    element={<Inventario filtro="insumo" />}
+                />
+
+                <Route
+                    path="/inventario/productos"
+                    element={<Inventario filtro="producto" />}
                 />
 
                 <Route

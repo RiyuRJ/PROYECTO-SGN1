@@ -43,20 +43,30 @@
 .app-sidebar-menu{
 
     display: flex;
+
     flex-direction: column;
 
-    gap: 35px;
+    gap: 15px;
 
-    margin-top: 80px;
+    align-items: flex-start;
+
+    width: 100%;
+
+    margin-top: 40px;
 }
 
 .app-sidebar-menu a{
+
+    width: 100%;
+
+    text-align: left;
 
     color: black;
 
     text-decoration: none;
 
-    font-size: 24px;
+    font-size: 22px;
+
     font-weight: 600;
 
     transition: 0.3s;
@@ -240,4 +250,61 @@
 
         padding: 20px;
     }
+}
+
+.menu-group{
+
+    width: 100%;
+}
+
+.submenu-btn{
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background: transparent;
+
+    border: none;
+
+    cursor: pointer;
+
+    color: black;
+
+    font-size: 22px;
+
+    font-weight: 600;
+
+    padding: 0;
+
+    text-align: left;
+}
+
+.submenu{
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-top: 12px;
+
+    margin-left: 20px;
+}
+
+.submenu a{
+
+    font-size: 18px !important;
+
+    color: #555;
+}
+
+.submenu a:hover{
+
+    color: #7CFC00;
 }

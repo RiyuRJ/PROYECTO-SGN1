@@ -9,7 +9,7 @@ import {
     deleteProduct
 } from '../services/inventoryService';
 
-function Inventario() {
+function Inventario({ filtro = 'todos' }) {
 
     const [products, setProducts] = useState([]);
 
@@ -25,6 +25,18 @@ function Inventario() {
 
     const [editStock, setEditStock] = useState('');
 
+    const [categoria, setCategoria] = useState('');
+
+    const [editCategoria, setEditCategoria] = useState('');
+
+    const filteredProducts = products.filter(product => {
+
+        if (filtro === 'todos')
+            return true;
+
+        return product.categoria === filtro;
+    });
+
     const loadProducts = async () => {
 
         const data = await getProducts();
@@ -35,15 +47,14 @@ function Inventario() {
     const handleCreate = async () => {
 
         await createProduct({
-
             nombre,
-
-            stock: Number(stock)
-
+            stock: Number(stock),
+            categoria
         });
 
         setNombre('');
         setStock('');
+        setCategoria('');
 
         loadProducts();
     };
@@ -56,6 +67,8 @@ function Inventario() {
 
         setEditStock(product.stock);
 
+        setEditCategoria(product.categoria);
+
         setShowModal(true);
     };
 
@@ -65,7 +78,8 @@ function Inventario() {
             editingProduct._id,
             {
                 nombre: editNombre,
-                stock: Number(editStock)
+                stock: Number(editStock),
+                categoria: editCategoria
             }
         );
 
@@ -93,6 +107,13 @@ function Inventario() {
 
     }, []);
 
+    const pageTitle =
+    filtro === 'insumo'
+        ? 'Insumos'
+        : filtro === 'producto'
+            ? 'Productos'
+            : 'Inventario';
+
     return (
 
         <Layout>
@@ -100,7 +121,7 @@ function Inventario() {
             <div style={{ padding: '40px' }}>
 
                 <h1 className="page-title">
-                    Inventario
+                    {pageTitle}
                 </h1>
 
                 <div className="create-product-card">
@@ -121,6 +142,15 @@ function Inventario() {
                             value={stock}
                             onChange={(e) => setStock(e.target.value)}
                         />
+
+                        <select
+                            value={categoria}
+                            onChange={(e) => setCategoria(e.target.value)}
+                        >
+                            <option value="">Seleccione categoría</option>
+                            <option value="insumo">Insumo</option>
+                            <option value="producto">Producto</option>
+                        </select>
 
                         <button
                             className="create-btn"
@@ -146,6 +176,8 @@ function Inventario() {
                                 <th>Producto</th>
 
                                 <th>Stock</th>
+                                
+                                <th>Categoria</th>
 
                                 <th>Acciones</th>
 
@@ -155,13 +187,15 @@ function Inventario() {
 
                         <tbody>
 
-                            {products.map(product => (
+                            {filteredProducts.map(product => (
 
                                 <tr key={product._id}>
 
                                     <td>{product.nombre}</td>
 
                                     <td>{product.stock}</td>
+
+                                    <td>{product.categoria}</td>
 
                                     <td>
 
@@ -217,6 +251,21 @@ function Inventario() {
                                 setEditStock(e.target.value)
                             }
                         />
+
+                        <select
+                            value={editCategoria}
+                            onChange={(e) =>
+                                setEditCategoria(e.target.value)
+                            }
+                        >
+                            <option value="insumo">
+                                Insumo
+                            </option>
+
+                            <option value="producto">
+                                Producto
+                            </option>
+                        </select>
 
                         <div className="modal-actions">
 
