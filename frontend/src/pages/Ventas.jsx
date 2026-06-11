@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import './css/Ventas.css';
+import { getClients } from '../services/clientsService';
+import { getProducts } from '../services/inventoryService';
 
 import {
     getSales,
@@ -13,10 +15,20 @@ function Ventas() {
 
     const [sales, setSales] = useState([]);
 
+    const [clients, setClients] = useState([]);
+    const [products, setProducts] = useState([]);
+
+    const [clienteId, setClienteId] = useState('');
+    const [productoId, setProductoId] = useState('');
+
     const [cliente, setCliente] = useState('');
     const [producto, setProducto] = useState('');
+
     const [cantidad, setCantidad] = useState('');
     const [precioUnitario, setPrecioUnitario] = useState('');
+
+    const [selectedProduct, setSelectedProduct] = useState(null);
+
     const [estado, setEstado] = useState('Pendiente');
 
     const [showModal, setShowModal] = useState(false);
@@ -30,24 +42,73 @@ function Ventas() {
         setSales(data);
     };
 
+    const loadClients = async () => {
+
+    const data = await getClients();
+        setClients(data);
+    };
+
+    const loadProducts = async () => {
+        const data = await getProducts();
+        setProducts(data);
+    };
+
     const handleCreate = async () => {
+        if (!clienteId) {
+
+            alert('Seleccione un cliente');
+
+            return;
+        }
+
+        if (!selectedProduct) {
+
+            alert('Seleccione un producto');
+
+            return;
+        }
+
+        if (
+            Number(cantidad) >
+            selectedProduct.stock
+        ) {
+
+            alert('Stock insuficiente');
+
+            return;
+        }
 
         await createSale({
 
+            cliente_id: clienteId,
+
             cliente,
+
+            producto_id: productoId,
+
             producto,
+
             cantidad: Number(cantidad),
-            precio_unitario: Number(precioUnitario),
+
+            precio_unitario:
+                Number(selectedProduct.precio),
+
             estado
 
         });
 
+        await loadProducts();
+
+        await loadSales();
+
         setCliente('');
         setProducto('');
+        setClienteId('');
+        setProductoId('');
         setCantidad('');
         setPrecioUnitario('');
-
-        loadSales();
+        setSelectedProduct(null);
+        setEstado('Pendiente');
     };
 
     const handleEdit = (sale) => {
@@ -73,18 +134,62 @@ function Ventas() {
         loadSales();
     };
 
-    const handleDelete = async (id) => {
+    const handleProductChange = (productId) => {
+        setProductoId(productId);
 
-        if(!window.confirm('¿Eliminar venta?')) return;
+        const selected = products.find(
+            product => product._id === productId
+        );
+
+        if (!selected) return;
+
+        setSelectedProduct(selected);
+
+        setProducto(selected.nombre);
+
+        setPrecioUnitario(selected.precio);
+    };
+
+    const handleDelete = async (id) => {
+        const confirmed = window.confirm(
+            '¿Eliminar venta?'
+        );
+
+        if (!confirmed) return;
 
         await deleteSale(id);
 
-        loadSales();
+        await loadProducts();
+
+        await loadSales();
+
+        if (
+            selectedProduct &&
+            selectedProduct._id === productoId
+        ) {
+
+            const updatedProducts =
+                await getProducts();
+
+            const updatedProduct =
+                updatedProducts.find(
+                    product =>
+                        product._id === productoId
+                );
+
+            setSelectedProduct(
+                updatedProduct || null
+            );
+        }
     };
 
     useEffect(() => {
 
         loadSales();
+
+        loadClients();
+
+        loadProducts();
 
     }, []);
 
@@ -104,21 +209,78 @@ function Ventas() {
 
                     <div className="create-sale-form">
 
-                        <input
-                            placeholder="Cliente"
-                            value={cliente}
-                            onChange={(e) =>
-                                setCliente(e.target.value)
-                            }
-                        />
+                        <select
+                            value={clienteId}
+                            onChange={(e) => {
 
-                        <input
-                            placeholder="Producto"
-                            value={producto}
+                                const selected = clients.find(
+                                    client => client._id === e.target.value
+                                );
+
+                                setClienteId(e.target.value);
+
+                                setCliente(selected.nombre);
+                            }}
+                        >
+
+                            <option value="">
+                                Seleccione Cliente
+                            </option>
+
+                            {clients.map(client => (
+
+                                <option
+                                    key={client._id}
+                                    value={client._id}
+                                >
+                                    {client.nombre}
+                                </option>
+
+                            ))}
+
+                        </select>
+
+                        <select
+                            value={productoId}
                             onChange={(e) =>
-                                setProducto(e.target.value)
+                                handleProductChange(e.target.value)
                             }
-                        />
+                        >
+
+                            <option value="">
+                                Seleccione Producto
+                            </option>
+
+                            {products.map(product => (
+
+                                <option
+                                    key={product._id}
+                                    value={product._id}
+                                >
+                                    {product.nombre}
+                                </option>
+
+                            ))}
+
+                        </select>
+
+                        {selectedProduct && (
+
+                            <div>
+
+                                <p>
+                                    Stock disponible:
+                                    {selectedProduct.stock}
+                                </p>
+
+                                <p>
+                                    Precio:
+                                    ${selectedProduct.precio}
+                                </p>
+
+                            </div>
+
+                        )}
 
                         <input
                             type="number"
@@ -126,15 +288,6 @@ function Ventas() {
                             value={cantidad}
                             onChange={(e) =>
                                 setCantidad(e.target.value)
-                            }
-                        />
-
-                        <input
-                            type="number"
-                            placeholder="Precio Unitario"
-                            value={precioUnitario}
-                            onChange={(e) =>
-                                setPrecioUnitario(e.target.value)
                             }
                         />
 

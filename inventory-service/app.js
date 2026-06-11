@@ -20,6 +20,7 @@ mongoose.connect('mongodb://mongo-inventory:27017/inventorydb')
 const ProductSchema = new mongoose.Schema({
     nombre: String,
     stock: Number,
+    precio: Number,
     categoria: String
 });
 
@@ -41,6 +42,21 @@ app.get(
     }
 );
 
+app.get(
+    '/products/:id',
+    authMiddleware,
+    roleMiddleware('admin', 'gerente'),
+    async (req, res) => {
+
+        const product =
+            await Product.findById(
+                req.params.id
+            );
+
+        res.json(product);
+    }
+);
+
 app.post(
     '/products',
     authMiddleware,
@@ -50,6 +66,7 @@ app.post(
         const product = new Product({
             nombre: req.body.nombre,
             stock: req.body.stock,
+            precio: req.body.precio,
             categoria: req.body.categoria
         });
 
@@ -65,15 +82,42 @@ app.put(
     roleMiddleware('admin', 'gerente'),
     async (req, res) => {
 
-        const product = await Product.findByIdAndUpdate(
-            req.params.id,
-            {
-                nombre: req.body.nombre,
-                stock: req.body.stock,
-                categoria: req.body.categoria
-            },
-            { new: true }
-        );
+        const currentProduct =
+            await Product.findById(
+                req.params.id
+            );
+
+        if (!currentProduct) {
+
+            return res.status(404).json({
+                error: 'Producto no encontrado'
+            });
+        }
+
+        const product =
+            await Product.findByIdAndUpdate(
+                req.params.id,
+                {
+                    nombre:
+                        req.body.nombre ??
+                        currentProduct.nombre,
+
+                    stock:
+                        req.body.stock ??
+                        currentProduct.stock,
+
+                    precio:
+                        req.body.precio ??
+                        currentProduct.precio,
+
+                    categoria:
+                        req.body.categoria ??
+                        currentProduct.categoria
+                },
+                {
+                    new: true
+                }
+            );
 
         res.json(product);
     }

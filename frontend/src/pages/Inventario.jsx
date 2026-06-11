@@ -16,6 +16,8 @@ function Inventario({ filtro = 'todos' }) {
     const [nombre, setNombre] = useState('');
 
     const [stock, setStock] = useState('');
+    
+    const [precio, setPrecio] = useState('');
 
     const [showModal, setShowModal] = useState(false);
 
@@ -24,6 +26,8 @@ function Inventario({ filtro = 'todos' }) {
     const [editNombre, setEditNombre] = useState('');
 
     const [editStock, setEditStock] = useState('');
+
+    const [editPrecio, setEditPrecio] = useState('');
 
     const [categoria, setCategoria] = useState('');
 
@@ -49,11 +53,13 @@ function Inventario({ filtro = 'todos' }) {
         await createProduct({
             nombre,
             stock: Number(stock),
+            precio: Number(precio),
             categoria
         });
 
         setNombre('');
         setStock('');
+        setPrecio('')
         setCategoria('');
 
         loadProducts();
@@ -67,6 +73,8 @@ function Inventario({ filtro = 'todos' }) {
 
         setEditStock(product.stock);
 
+        setEditPrecio(product.precio)
+
         setEditCategoria(product.categoria);
 
         setShowModal(true);
@@ -79,6 +87,7 @@ function Inventario({ filtro = 'todos' }) {
             {
                 nombre: editNombre,
                 stock: Number(editStock),
+                precio: Number(editPrecio),
                 categoria: editCategoria
             }
         );
@@ -143,6 +152,13 @@ function Inventario({ filtro = 'todos' }) {
                             onChange={(e) => setStock(e.target.value)}
                         />
 
+                        <input
+                            type="number"
+                            placeholder="Precio"
+                            value={precio}
+                            onChange={(e) => setPrecio(e.target.value)}
+                        />
+
                         <select
                             value={categoria}
                             onChange={(e) => setCategoria(e.target.value)}
@@ -176,6 +192,8 @@ function Inventario({ filtro = 'todos' }) {
                                 <th>Producto</th>
 
                                 <th>Stock</th>
+
+                                <th>Precio</th>
                                 
                                 <th>Categoria</th>
 
@@ -194,6 +212,8 @@ function Inventario({ filtro = 'todos' }) {
                                     <td>{product.nombre}</td>
 
                                     <td>{product.stock}</td>
+
+                                    <td>${product.precio}</td>
 
                                     <td>{product.categoria}</td>
 
@@ -249,6 +269,14 @@ function Inventario({ filtro = 'todos' }) {
                             value={editStock}
                             onChange={(e) =>
                                 setEditStock(e.target.value)
+                            }
+                        />
+
+                        <input
+                            type="number"
+                            value={editPrecio}
+                            onChange={(e) =>
+                                setEditPrecio(e.target.value)
                             }
                         />
 
